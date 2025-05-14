@@ -6,11 +6,9 @@ from api import fetch_plastic_waste_data, fetch_wastewater_data
 from prediction import is_file_valid, run_plastic_waste_prediction, run_wastewater_prediction
 from plotting import plot_plastic_waste_data, plot_wastewater_data, set_current_topic
 
-# Create the main data directory and subdirectories
 os.makedirs("data/api_data", exist_ok=True)
 os.makedirs("data/SavedData", exist_ok=True)
 
-# Track the last plotted topic to determine when to close plots
 last_plotted_topic = None
 
 def close_previous_plots(current_topic):
@@ -32,9 +30,9 @@ def display_welcome():
     print("📡 Data Source: https://api.data.gov.in (Indian Government Open Data)".center(50))
     print("\n🌿 Team: HAV_X 🌿".center(50))
     print("👥 Members:".center(50))
-    print("  - Hridip Kashyap (Class 12)".center(50))
-    print("  - Arush Nath (Class 12)".center(50))
-    print("  - Vyom Agarwal (Class 12)".center(50))
+    print("  - Hridip Kashyap (Class 12 - Humanities)".center(50))
+    print("  - Arush Nath (Class 12 - Science)".center(50))
+    print("  - Vyom Agarwal (Class 12 - Science)".center(50))
     print("  - Mentor: Mr. Ankur Hazarika".center(50))
     print(f"\n{border}\n")
 
@@ -98,7 +96,6 @@ def main():
                     if sub_choice == "0":
                         break
                     elif sub_choice == "1":
-                        # Fetch Plastic Waste Data
                         try:
                             df = asyncio.run(fetch_plastic_waste_data())
                             api_path = 'data/api_data/plastic_waste_data.csv'
@@ -114,7 +111,6 @@ def main():
                         except Exception as e:
                             print(f"❌ Failed to fetch Plastic Waste data: {str(e)}\n")
                     elif sub_choice == "2":
-                        # Predict Future Plastic Waste
                         display_data_source_options("Plastic Waste")
                         source_choice = get_numeric_choice("> ", ["0", "1", "2"])
                         if source_choice == "0":
@@ -133,7 +129,6 @@ def main():
                         
                         run_plastic_waste_prediction(data_path)
                     elif sub_choice == "3":
-                        # Plot Plastic Waste Graphs
                         display_data_source_options("Plastic Waste")
                         source_choice = get_numeric_choice("> ", ["0", "1", "2"])
                         if source_choice == "0":
@@ -164,7 +159,6 @@ def main():
                     if sub_choice == "0":
                         break
                     elif sub_choice == "1":
-                        # Fetch Wastewater Data
                         try:
                             df = asyncio.run(fetch_wastewater_data())
                             api_path = 'data/api_data/wastewater_data.csv'
@@ -180,7 +174,6 @@ def main():
                         except Exception as e:
                             print(f"❌ Failed to fetch Wastewater data: {str(e)}\n")
                     elif sub_choice == "2":
-                        # Predict Future BOD Load
                         display_data_source_options("Wastewater")
                         source_choice = get_numeric_choice("> ", ["0", "1", "2"])
                         if source_choice == "0":
@@ -199,7 +192,6 @@ def main():
                         
                         run_wastewater_prediction(data_path)
                     elif sub_choice == "3":
-                        # Plot Wastewater Graphs
                         display_data_source_options("Wastewater")
                         source_choice = get_numeric_choice("> ", ["0", "1", "2"])
                         if source_choice == "0":
@@ -224,7 +216,6 @@ def main():
                         
                         plot_wastewater_data(data_path)
     finally:
-        # Ensure all plot windows are closed when the program exits
         plt.close('all')
 
 if __name__ == '__main__':

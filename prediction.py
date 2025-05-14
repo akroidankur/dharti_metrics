@@ -16,7 +16,6 @@ def predict_plastic_waste(df, state, year):
     if state_data.empty:
         return None, f"No data found for state: {state}"
 
-    # Extract plastic waste values for available years, converting 'NA' to None
     years = ['__2016_17', '_2017_18', '_2018_19', '_2019_20', '_2020_21']
     waste_values = []
     for year_col in years:
@@ -28,14 +27,12 @@ def predict_plastic_waste(df, state, year):
     if not waste_values:
         return None, f"No valid data available for {state} to make a prediction."
 
-    # Calculate average waste and apply a conservative annual growth rate (e.g., 2%)
     avg_waste = sum(waste_values) / len(waste_values)
     annual_growth_rate = 0.02  # 2% annual increase
     latest_year = 2021
     years_diff = year - latest_year
     predicted_waste = avg_waste * (1 + annual_growth_rate) ** years_diff
 
-    # Determine impacts based on predicted waste
     impacts = []
     if predicted_waste < 50000:
         impacts.append("Environmental: Low land and water pollution risk.")
@@ -55,17 +52,14 @@ def predict_wastewater_bod(df, state, year):
     if state_data.empty:
         return None, f"No data found for state: {state}"
 
-    # Get the current BOD load (assumed for 2021)
     bod_load = float(state_data.iloc[0]['bod_load__tpd_'])
     wastewater_discharge = float(state_data.iloc[0]['wastewater_discharge__mld_'])
 
-    # Since data is limited to one year, assume a linear increase (e.g., 1% per year)
-    annual_increase_rate = 0.01  # 1% annual increase
+    annual_increase_rate = 0.01
     latest_year = 2021
     years_diff = year - latest_year
     predicted_bod = bod_load * (1 + annual_increase_rate) ** years_diff
 
-    # Determine impacts based on predicted BOD load
     impacts = []
     if predicted_bod < 2:
         impacts.append("Ecological: Low impact on river ecosystem health.")

@@ -13,7 +13,6 @@ def plot_plastic_waste_data(data_path):
     
     df = pd.read_csv(data_path)
     
-    # Ask user to select a state for time-series plots
     print("\nAvailable states/UTs:", ", ".join(df['state_ut_wise'].unique()))
     state = input("Enter state/UT name for time-series plots (e.g., Andhra Pradesh): ").strip().title()
     state_data = df[df['state_ut_wise'].str.lower() == state.lower()]
@@ -22,7 +21,6 @@ def plot_plastic_waste_data(data_path):
         print(f"❌ No data found for state: {state}\n")
         return
     
-    # Prepare data for time-series plots (years vs. plastic waste)
     years = ['2016-17', '2017-18', '2018-19', '2019-20', '2020-21']
     year_cols = ['__2016_17', '_2017_18', '_2018_19', '_2019_20', '_2020_21']
     waste_values = []
@@ -38,7 +36,6 @@ def plot_plastic_waste_data(data_path):
         print(f"❌ No valid data available for {state} to plot.\n")
         return
     
-    # Time-series plots for the selected state
     plots = [
         ("Line Plot", lambda: plt.plot(valid_years, waste_values, color="blue", label="Plastic Waste (tonnes)"),
          f"plastic_waste_{state.lower().replace(' ', '_')}_line.png"),
@@ -65,7 +62,6 @@ def plot_plastic_waste_data(data_path):
         plt.savefig(save_path)
         saved_files.append(save_path)
     
-    # Comparison plot across states for a selected year
     print("\nAvailable years: 2016-17, 2017-18, 2018-19, 2019-20, 2020-21")
     year_input = input("Enter year for comparison across states (e.g., 2020-21): ").strip()
     year_map = {
@@ -108,14 +104,12 @@ def plot_wastewater_data(data_path):
     
     df = pd.read_csv(data_path)
     
-    # Remove the 'Total' row for plotting
     df = df[df['state'] != 'Total']
     
     if df.empty:
         print("❌ No valid data available for plotting.\n")
         return
     
-    # Plot 1: Wastewater Discharge by State (Bar Plot)
     plt.figure(figsize=(10, 6))
     plt.bar(df['state'], df['wastewater_discharge__mld_'], color="teal", edgecolor="black")
     plt.title("Wastewater Discharge into Ganga by State (2020-21)", fontsize=16)
@@ -129,7 +123,6 @@ def plot_wastewater_data(data_path):
     plt.savefig(wastewater_discharge_path)
     saved_files = [wastewater_discharge_path]
     
-    # Plot 2: BOD Load by State (Bar Plot)
     plt.figure(figsize=(10, 6))
     plt.bar(df['state'], df['bod_load__tpd_'], color="orange", edgecolor="black")
     plt.title("BOD Load into Ganga by State (2020-21)", fontsize=16)
@@ -143,7 +136,6 @@ def plot_wastewater_data(data_path):
     plt.savefig(bod_load_path)
     saved_files.append(bod_load_path)
     
-    # Plot 3: Combined Bar Plot for Wastewater Discharge and BOD Load
     plt.figure(figsize=(12, 6))
     bar_width = 0.35
     x = range(len(df['state']))
